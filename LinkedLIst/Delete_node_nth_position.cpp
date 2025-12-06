@@ -1,91 +1,95 @@
-#include<iostream>
+#include <bits/stdc++.h>
+
 using namespace std;
-class Node
-{
-  public:
+
+class Node {
+public:
   int info;
-  Node* link;
-  Node(int info)
-  {
-    this-> info = info;
-    this-> link = NULL; 
+  Node *link;
+  Node(int info) {
+    this->info = info;
+    this->link = nullptr;
   }
 };
 
-void print_List(Node* start)
-{
-  Node* ptr = start;
-  while(ptr!=NULL)
-  {
-    cout << ptr->info << "->";
-    ptr = ptr->link;
-  }
-  cout<< "NULL" << endl;
-}
-void Delete_at_position(Node*& start,int pos)
-{
-  if(start==NULL)// IF list is Start is NULL
-  {
-    cout << "List is empty" << endl;
-    return;
-  }
-  if(pos==0)// IF position is 0
-  {
-    Node* temp = start;
-    start = start->link;
-    delete temp; // Free the memory of the deleted node
-  }
-  else // ELSE traverse to the (pos-1)th node
-  {
-    Node* ptr = start;
-    for(int i=0;i<pos&& ptr!=NULL;i++)
-    {
-      ptr=ptr->link;
+void delete_nth_node(Node*& start, int position) {
+    // Case 1: Empty list
+    if (start == nullptr) {
+        cout << "List is empty!" << endl;
+        return;
     }
-    if(ptr==NULL)// IF (pos-1)th node is NULL or posth node is NULL
-    {
-      cout << "Position out of bounds" << endl;
-      return;
+
+    // Case 2: Invalid position (negative or 0)
+    if (position < 1) {
+        cout << "Invalid position!" << endl;
+        return;
     }
-    // ELSE link[(pos-1)th node] = link[posth node] and delete posth node
-    Node* temp = ptr->link;
-    ptr->link = temp->link;
-    delete temp; // Free the memory of the deleted node
-  }
+
+    // Case 3: Delete head node (position 1)
+    if (position == 1) {
+        Node* temp = start;
+        start = start->link;
+        delete temp;
+        return;
+    }
+
+    // Case 4: Delete node at position > 1
+    Node* current = start;
+    Node* previous = nullptr;
+    int count = 1;
+
+    // Traverse to the node or until end of list
+    while (current != nullptr && count < position) {
+        previous = current;
+        current = current->link;
+        count++;
+    }
+
+    // Case 5: Position exceeds list length
+    if (current == nullptr) {
+        cout << "Position exceeds list length!" << endl;
+        return;
+    }
+
+    // Delete the node
+    previous->link = current->link;
+    delete current;
 }
 
-int main()
-{
+int main() {
   int n;
   cin >> n;
+
   Node *start = NULL;
-  for(int i = 0;i<n;++i)
-  {
+
+  for (int i = 1; i <= n; ++i) {
     int val;
     cin >> val;
-    Node *temp = new Node(val);
-    if(start==NULL)
-    {
-      start = temp;
-    }
-    else
-    {
-      Node* ptr = start;
-      while(ptr->link!=NULL)
-      {
-        ptr=ptr->link;
-      }
-      ptr->link = temp;
+    Node *newNode = new Node(val);
+    if (start == NULL) {
+      start = newNode;
+    } else {
+      newNode->link = start;
+      start = newNode;
     }
   }
+  Node *ptr = start;
+  while (ptr != NULL) {
+    cout << ptr->info << " ->";
+    ptr = ptr->link;
+  }
+  cout << "NULL" << endl;
 
-  print_List(start);
+  int del_node_pos;
+  cin >> del_node_pos;
+  delete_nth_node(start,del_node_pos);
 
-  cout << "Enter position to delete: ";
-  int position;
-  cin >> position;
-  Delete_at_position(start,position-1);
-  print_List(start);
+  ptr = start;
+  while (ptr != NULL) {
+    cout << ptr->info << " ->";
+    ptr = ptr->link;
+  }
+  cout << "NULL" << endl;
 
   return 0;
 }
