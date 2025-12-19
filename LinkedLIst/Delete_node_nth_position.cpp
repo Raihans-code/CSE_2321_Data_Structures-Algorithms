@@ -58,34 +58,48 @@ void delete_nth_node(Node*& start, int position) {
 
 int main() {
   int n;
+  cout << "Enter Number of Data:";
   cin >> n;
 
   Node *start = NULL;
 
-  for (int i = 1; i <= n; ++i) {
-    int val;
-    cin >> val;
-    Node *newNode = new Node(val);
-    if (start == NULL) {
-      start = newNode;
-    } else {
-      newNode->link = start;
-      start = newNode;
+  cout <<"Enter Data:";
+  for (int i = 0; i < n; ++i)
+    {
+        int val;
+        cin >> val;
+
+        Node* temp = new Node(val);
+
+        // INSERT AT TAIL
+        if (start == nullptr)
+        {
+            start = temp;
+        }
+        else
+        {
+            Node* ptr = start;
+            while (ptr->link != nullptr)
+            {
+                ptr = ptr->link;
+            }
+            ptr->link = temp;
+        }
     }
-  }
   Node *ptr = start;
-  while (ptr != NULL) {
+  while (ptr != nullptr) {
     cout << ptr->info << " ->";
     ptr = ptr->link;
   }
   cout << "NULL" << endl;
 
+  cout <<"Enter Position to Delete:";
   int del_node_pos;
   cin >> del_node_pos;
   delete_nth_node(start,del_node_pos);
 
   ptr = start;
-  while (ptr != NULL) {
+  while (ptr != nullptr) {
     cout << ptr->info << " ->";
     ptr = ptr->link;
   }

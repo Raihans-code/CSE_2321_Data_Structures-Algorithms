@@ -44,7 +44,7 @@ void insert_at_nth(Node *start, int pos, int val)
   {
     cout << "Position out of BOUNDs!"<<endl;
     delete newNode;
-    newNode = nullptr;
+    newNode = NULL;
     return;
   }
   else{
@@ -64,21 +64,27 @@ int main()
 
   cout << "Enter Data:";
   for (int i = 0; i < n; ++i)
-  {
-    int val;
-    cin >> val;
-    Node *temp = new Node(val);
+    {
+        int val;
+        cin >> val;
 
-    if (start == NULL)
-    {
-      start = temp;
+        Node* temp = new Node(val);
+
+        // INSERT AT TAIL
+        if (start == nullptr)
+        {
+            start = temp;
+        }
+        else
+        {
+            Node* ptr = start;
+            while (ptr->link != nullptr)
+            {
+                ptr = ptr->link;
+            }
+            ptr->link = temp;
+        }
     }
-    else
-    {
-      temp->link = start;
-      start = temp;
-    }
-  }
   print_list(start);
 
   int item,position;
