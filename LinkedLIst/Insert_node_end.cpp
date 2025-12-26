@@ -10,7 +10,7 @@ public:
     Node(int info)
     {
         this->info = info;
-        this->link = NULL;
+        this->link = nullptr;
     }
 };
 
